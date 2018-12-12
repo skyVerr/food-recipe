@@ -1,0 +1,60 @@
+<table class="stripped">
+  <thead>
+    <tr>
+      <th width="10%">Recipe Id</th>
+      <th width="10%">Image</th>
+      <th width="20%">Name</th>
+      <th width="10%">Ingredients</th>
+      <th width="40%">Preparation</th>
+      <th width="10%">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let r of recipes">
+      <td>{{ r.recipe_id }}</td>
+      <td><img [src]="r.image" class="responsive-img"></td>
+      <td><a [routerLink]="'/recipe/'+r.recipe_id">{{ r.name }}</a></td>
+      <td>{{ r.ingredients | slice:0:15}}...</td>
+      <td>{{ r.preparation }}</td>
+      <td><button (click)="deleteRecipe(r)" class="btn red"><i class="material-icons">delete</i></button></td>
+    </tr>
+  </tbody>
+  
+</table>
+
+<div class="container">
+  <div class="row">
+        <div class="row" style=" text-align: center; margin: 20%">
+          <img [src]="viewImage" (click)="image.click()" class="responsive-img">
+          <input type="file" hidden #image (change)="imageChange($event)">
+          <div class="row">
+              <form class="col s12" #f="ngForm" (ngSubmit)="onSubmit(f)">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input ngModel name="name" type="text">
+                    <label for="name" >Name</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                      <textarea name="ingredients" ngModel class="materialize-textarea" ></textarea>
+                      <label for="ingredients">Ingredients</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                      <textarea name="preparation" ngModel class="materialize-textarea" ></textarea>
+                      <label for="preparation">Preparation</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                      <button class="btn blue" type="submit">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
+  </div>
+</div>

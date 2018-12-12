@@ -1,0 +1,31 @@
+<div class="container">
+
+  <div class="row">
+    <div class="input-field col s6 offset-s3">
+      <form #s="ngForm">
+        <input materialize="autocomplete" #auto autocomplete="off" (keyup)="onKeyUp($event)" 
+         [materializeParams]="searchArray" placeholder="Food is life" id="search" type="text" class="validate">
+        <label for="search">Search</label>
+      </form>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+  <div *ngIf="recipes">
+    <div class="col s2" *ngFor="let r of recipes">
+      <div class="card">
+        <div class="card-image">
+          <img [src]="r.image">
+          <!-- <span class="card-title">{{ r.name }}</span> -->
+        </div>
+        <div class="card-content">
+          <p class="truncate">{{ r.preparation }}</p>
+        </div>
+        <div class="card-action">
+          <a [routerLink]="'/recipe/'+r.recipe_id">{{ r.name }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
