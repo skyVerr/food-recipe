@@ -49,6 +49,14 @@
                   </div>
                 </div>
                 <div class="row">
+                  <label for="chips">Tags</label>
+                  <div class="chips" 
+                  [materializeActions]="chipsActions" (chip.add)="chipAdded($event)" 
+                  (chip.delete)="chipDelete($event)" 
+                   materialize="material_chip">
+                  </div>
+                </div>
+                <div class="row">
                   <div class="input-field col s12">
                       <button class="btn blue" type="submit">Submit</button>
                   </div>

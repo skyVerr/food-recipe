@@ -31,4 +31,12 @@ export class DataService {
   search(keyword):Observable<Recipe[]>{
     return this.http.get<Recipe[]>(this.apiUrl+'search.php?keyword='+keyword.toUpperCase());
   }
+
+  addTag(tag){
+    return this.http.post(this.apiUrl+'addTag.php',tag);
+  }
+
+  searchByTag(keyword){
+    return this.http.get<Recipe[]>(this.apiUrl+'searchByTag.php?keyword='+keyword);
+  }
 }

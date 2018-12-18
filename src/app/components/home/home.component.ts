@@ -36,7 +36,18 @@ export class HomeComponent implements OnInit {
         event.target.focus();
 
         if(event.keyCode == 13){
-          this.recipes = recipes;
+          if(event.target.value.split(' ').length == 1){
+            this.dataService.searchByTag(event.target.value)
+              .subscribe(recipe2=>{
+                if(recipe2.length >= 1){
+                  this.recipes = recipe2;
+                } else {
+                  this.recipes = recipes;
+                }
+              });
+          } else {
+            this.recipes = recipes;
+          }
         }
 
       });
