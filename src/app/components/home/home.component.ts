@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe';
 import { DataService } from 'src/app/services/data.service';
+import { async, reject } from 'q';
 
 @Component({
   selector: 'app-home',
@@ -10,49 +11,65 @@ import { DataService } from 'src/app/services/data.service';
 export class HomeComponent implements OnInit {
 
   recipes: Recipe[];
+  allRecipe: Recipe[];
   search: any;
   searchArray;
+  userInput;
+  predectiveResult;
 
   constructor(
     private dataService: DataService
-  ) { }
+  ) { 
+    this.userInput = new Array();
+  }
 
   ngOnInit() {
-
+    this.dataService.getRecipes()
+    .subscribe(data=>{
+      this.allRecipe = data;
+      //load all data to allRecipe variable
+    });
   }
 
-  onKeyUp(event){
+  async onKeyUp(event){
     let data = {};
-    
-    this.dataService.search(event.target.value)
-      .subscribe(recipes=>{
 
-        recipes.forEach(recipe => {
-          data[recipe.name] = recipe.image;
-        });
+    // this.predectiveResult = "";
+    let keyword = event.target.value;
 
-        this.searchArray = [{data}];
-        event.target.blur();
-        event.target.focus();
+    let searchRecipe = this.allRecipe.filter(e=>{
+      let validate = true;
+      for (let i = 0; i < keyword.length; i++) {
+        
+        if(keyword[i] == e.name[i]) {
 
-        if(event.keyCode == 13){
-          if(event.target.value.split(' ').length == 1){
-            this.dataService.searchByTag(event.target.value)
-              .subscribe(recipe2=>{
-                if(recipe2.length >= 1){
-                  this.recipes = recipe2;
-                } else {
-                  this.recipes = recipes;
-                }
-              });
-          } else {
-            this.recipes = recipes;
-          }
         }
+        else {
+          validate = false;
+          break;
+        }
+      }
+      return validate;
+    });
 
-      });
-  }
+    console.log(searchRecipe);
+    
 
-  
+    searchRecipe.forEach(recipe => {
+      data[recipe.name] = recipe.image;
+    });
+
+    this.searchArray = [{data}];
+    event.target.blur();
+    event.target.focus();
+
+
+    if(event.keyCode == 13){
+      this.recipes = searchRecipe;
+    }         
+
+
+  } 
+
 
 }
