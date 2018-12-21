@@ -63,11 +63,9 @@ export class HomeComponent implements OnInit {
     event.target.blur();
     event.target.focus();
 
-
     if(event.keyCode == 13){
       this.recipes = searchRecipe;
     }         
-
 
   } 
 
